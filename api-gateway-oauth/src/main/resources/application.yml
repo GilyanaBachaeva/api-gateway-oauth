@@ -11,11 +11,21 @@ spring:
           uri: lb://flow-manager
           predicates:
             - Path=/api/**
+          filters:
+            - StripPrefix=1
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8082/realms/fileconverter
+
+app:
+  security:
+    routes:
+      - path: /api/flow/**
+        role: FLOW_MANAGER
+      - path: /api/admin/**
+        role: ADMIN
 
 eureka:
   client:
